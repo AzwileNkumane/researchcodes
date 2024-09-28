@@ -1,1 +1,6 @@
-1000 Observations Analysis
+a <- na.omit(a) # removing missing values from data
+a <- a[,-10]
+a <- a[1:1000,] #reducing data 
+c <- cbind(a[,1], a[,2]) # coordinates(lon, lat)
+
+#GWR
