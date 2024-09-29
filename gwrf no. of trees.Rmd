@@ -1,0 +1,89 @@
+---
+title: "grf no. of trees"
+author: "Azwile"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+ 20143.838
+```
+
+```{r}
+#(Urbanization often precipitates increased demand for housing in specific locations, leading to notable spatial variations in house prices. This study seeks to address this spatial variability by utilizing advanced spatial modeling techniques: Geographically Weighted Regression (GWR), Geographically Weighted Random Forests (GWRF), and Geographically Weighted Artificial Neural Networks (GWANN). These methodologies provide sophisticated tools for analyzing spatial heterogeneity within housing market data. The primary aim of this research is to evaluate and compare the effectiveness of these geographically weighted models in predicting house prices, taking into account different model parameters and dataset sizes. Specifically, the study aims to identify the model that offers the greatest predictive accuracy and to examine how performance varies with dataset size. Through a detailed comparative analysis of GWR, GWRF, and GWANN, this research aspires to advance the understanding of spatial dynamics in real estate markets and inform the selection of optimal modeling approaches for future investigations).
+
+
+
+
+
+
+a <- read.csv("C:\\Users\\appia\\Desktop\\documents\\research\\archive\\housing.csv")
+
+library(sp)
+
+a <- na.omit(a)
+a <- a[,-10]
+a <- a[1:1000,]# reducing data for analysis example
+c <- cbind(a[,1], a[,2])
+
+e1 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 100, 
+              coords = c,
+              bw = 10, 
+              dframe  = a,
+              kernel = "fixed")
+e1$LocalModelSummary$l.MSE.Pred
+e1$LocalModelSummary$l.MSE.OOB
+accuracy(e1$LGofFit$LM_yfitPred, a$median_house_value)
+
+e2 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 50, 
+              coords = c,
+              bw = 10, 
+              dframe  = a,
+              kernel = "fixed")
+e2$LocalModelSummary$l.MSE.Pred
+e2$LocalModelSummary$l.MSE.OOB
+accuracy(e2$LGofFit$LM_yfitPred, a$median_house_value)
+
+e3 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 10, 
+              coords = c,
+              bw = 10, 
+              dframe  = a,
+              kernel = "fixed")
+e3$LocalModelSummary$l.MSE.Pred
+e3$LocalModelSummary$l.MSE.OOB
+accuracy(e3$LGofFit$LM_yfitPred, a$median_house_value)
+
+
+e4 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 150, 
+              coords = c,
+              bw = 10, 
+              dframe  = a,
+              kernel = "fixed")
+e4$LocalModelSummary$l.MSE.Pred
+e4$LocalModelSummary$l.MSE.OOB
+accuracy(e4$LGofFit$LM_yfitPred, a$median_house_value)
+```
+
+
+```{r}
+plot(density(a$median_house_value), main= "Density of median_house_value", ylim=c(0,0.000007))
+lines(density(e3$LGofFit$LM_yfitPred), col=3, lwd=2, lty=2)
+lines(density(e2$LGofFit$LM_yfitPred), col=2, lwd=2,lty=3)
+lines(density(e1$LGofFit$LM_yfitPred), col=4, lwd=2,lty=4)
+lines(density(e4$LGofFit$LM_yfitPred), col=5, lwd=2,lty=5)
+legend("topright", legend = c("10t","50t","100t","150t"), col = c(3,2,4,5), lty = 2:5, , lwd = 2,bg="lightgrey",title="No of trees" )
+```
+
