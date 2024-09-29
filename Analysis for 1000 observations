@@ -71,6 +71,23 @@ gwann_model <- gwann(x_train=x[-idx_pred,],y_train=y[-idx_pred],w_train=dm[-idx_
      bwSearch="goldenSection",bwMin=min(dm)/4, bwMax=max(dm)/4,
      threads=8)
 
-p1<-diag(gwann_model$predictions)  # predicted values
+p <- diag(gwann_model$predictions)  # predicted values
 
-##########################################################################################################################################3
+## model accuracy parameters
+accuracy(p,a[idx_pred,]$median_house_value)
+ 
+##########################################################################################################################################
+#plotting the densities of the predicted valures and the actual observations
+
+##plotting for gwr
+plot(density(a$median_house_value),main = "GWR for 1000 obs",ylim=c(0,0.000006))
+lines(density(gwr.model$lm$fitted.values), col= "red")
+
+## plotting for gwrf
+plot(density(a$median_house_value), main = "GWRF for 1000 obs",ylim=c(0,0.000006))
+lines(density(e3$LGofFit$LM_yfitPred), col="blue")
+
+## plotting for gwann
+plot(density(a[idx_pred,]$median_house_value), main="GWANN for 1000 obs")
+lines(density(p), col="darkgreen")
+
