@@ -7,24 +7,16 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
- 20143.838
 ```
 
 ```{r}
-#(Urbanization often precipitates increased demand for housing in specific locations, leading to notable spatial variations in house prices. This study seeks to address this spatial variability by utilizing advanced spatial modeling techniques: Geographically Weighted Regression (GWR), Geographically Weighted Random Forests (GWRF), and Geographically Weighted Artificial Neural Networks (GWANN). These methodologies provide sophisticated tools for analyzing spatial heterogeneity within housing market data. The primary aim of this research is to evaluate and compare the effectiveness of these geographically weighted models in predicting house prices, taking into account different model parameters and dataset sizes. Specifically, the study aims to identify the model that offers the greatest predictive accuracy and to examine how performance varies with dataset size. Through a detailed comparative analysis of GWR, GWRF, and GWANN, this research aspires to advance the understanding of spatial dynamics in real estate markets and inform the selection of optimal modeling approaches for future investigations).
-
-
-
-
-
-
 a <- read.csv("C:\\Users\\appia\\Desktop\\documents\\research\\archive\\housing.csv")
 
 library(sp)
 
 a <- na.omit(a)
 a <- a[,-10]
-a <- a[1:1000,]# reducing data for analysis example
+a <- a[1:1000,]# reducing data for analysis
 c <- cbind(a[,1], a[,2])
 
 e1 <- grf(median_house_value~households+median_income
@@ -77,7 +69,7 @@ e4$LocalModelSummary$l.MSE.OOB
 accuracy(e4$LGofFit$LM_yfitPred, a$median_house_value)
 ```
 
-
+# Plotting all models
 ```{r}
 plot(density(a$median_house_value), main= "Density of median_house_value", ylim=c(0,0.000007))
 lines(density(e3$LGofFit$LM_yfitPred), col=3, lwd=2, lty=2)
