@@ -16,6 +16,7 @@ library(devtools)
 install_github("jhagenauer/gwann")
 library(gwann)
 ####################################################################################################################
+a <- read.csv("C:\\Users\\appia\\Desktop\\documents\\research\\archive\\housing.csv")
 a <- na.omit(a) # removing missing values from data
 a <- a[,-10]
 a <- a[1:2000,] #reducing data 
