@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Loading data
 ```{r}
 library(sp)
+library(forecast)
 a <- read.csv("C:\\Users\\appia\\Desktop\\documents\\research\\archive\\housing.csv")
 
 a <- na.omit(a)
