@@ -1,3 +1,21 @@
+# loading packages
+library(spgwr)
+library(tidyverse)  
+library(sf)
+library(sp)
+library(tmap)
+library(tmaptools)
+library(spgwr)
+library(grid)
+library(gridExtra)
+library(multiColl)
+library(SpatialML)
+library(rJava)
+library(caret)
+library(devtools)
+install_github("jhagenauer/gwann")
+library(gwann)
+####################################################################################################################
 a <- na.omit(a) # removing missing values from data
 a <- a[,-10]
 a <- a[1:2000,] #reducing data 
