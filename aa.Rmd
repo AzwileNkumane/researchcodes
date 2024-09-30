@@ -1,0 +1,93 @@
+---
+title: "Untitled"
+author: "Azwile"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Loading data
+```{r}
+library(sp)
+a <- read.csv("C:\\Users\\appia\\Desktop\\documents\\research\\archive\\housing.csv")
+
+a <- na.omit(a)
+a <- a[,-10]
+a <- a[1:1000,]# reducing data for analysis example
+c <- cbind(a[,1], a[,2])
+```
+
+
+
+```{r}
+e1 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 150, 
+              coords = c,
+              bw = 10, 
+              dframe  = a,
+              kernel = "fixed")
+accuracy(a$median_house_value,e1$LGofFit$LM_yfitPred)
+
+
+
+e2 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 150, 
+              coords = c,
+              bw = 5, 
+              dframe  = a,
+              kernel = "fixed")
+accuracy(a$median_house_value,e2$LGofFit$LM_yfitPred)
+plot(density(a$median_house_value), main = "GWRF for 2000 obs",ylim=c(0,0.000006))
+lines(density(e2$LGofFit$LM_yfitPred), col="blue")
+
+e3 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 150, 
+              coords = c,
+              bw =1, 
+              dframe  = a,
+              kernel = "fixed")
+accuracy(a$median_house_value,e3$LGofFit$LM_yfitPred)
+plot(density(a$median_house_value), main = "GWRF for 2000 obs",ylim=c(0,0.000006))
+lines(density(e3$LGofFit$LM_yfitPred), col="blue")
+
+e4 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 150, 
+              coords = c,
+              bw = 0.8, 
+              dframe  = a,
+              kernel = "fixed")
+accuracy(a$median_house_value,e4$LGofFit$LM_yfitPred)
+plot(density(a$median_house_value), main = "GWRF for 2000 obs",ylim=c(0,0.000006))
+lines(density(e4$LGofFit$LM_yfitPred), col="blue")
+
+e5 <- grf(median_house_value~households+median_income
+              +population+housing_median_age+total_rooms
+              +total_bedrooms,
+              ntree = 150, 
+              coords = c,
+              bw = 0.5, 
+              dframe  = a,
+              kernel = "fixed")
+accuracy(a$median_house_value,e5$LGofFit$LM_yfitPred)
+plot(density(a$median_house_value), main = "GWRF for 2000 obs",ylim=c(0,0.000006))
+lines(density(e5$LGofFit$LM_yfitPred), col="blue")
+
+```
+
+
+
+
+
+
