@@ -1,4 +1,5 @@
 # loading packages
+library(forecast)
 library(spgwr)
 library(tidyverse)  
 library(sf)
